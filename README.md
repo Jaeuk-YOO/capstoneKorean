@@ -1,17 +1,17 @@
-# README
+# README for Capstone design in dept.Korean.
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## My Friend Seoul
 
-Things you may want to cover:
+It is a service which is web, used Kakao map API by smartphone.
 
-* Ruby version
+* Ruby version : 2.5.0
+* rails version : 5.1.4 installed. (But when i installed with gem in my rails project, it became 5.1.5.)
 
 * System dependencies
 
 * Configuration
 
-* Database creation
+* Database creation : MySQL : 5.7.21-0ubuntu0.16.04.1
 
 * Database initialization
 
@@ -21,4 +21,3 @@ Things you may want to cover:
 
 * Deployment instructions
 
-* ...
