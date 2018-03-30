@@ -21,6 +21,8 @@ ActiveRecord::Schema.define(version: 20180323040945) do
     t.string "is_food_traditional"
     t.string "is_look_traditional"
     t.string "near_subway"
+    t.string "x"
+    t.string "y"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
