@@ -1,30 +1,38 @@
 class CrawlController < ApplicationController
 
-    def upload
+    def upload #xml파일을 크롤링합니다.
         require('nokogiri')
-        seochon = Nokogiri::XML(File.open("public/seochon.xml"))
-        seochon.xpath("//store").each do |each_data|
-            cd = CrawlDatum.new
-            cd.category = each_data.xpath("category").inner_text
-            cd.name = each_data.xpath("name").inner_text
-            cd.address = each_data.xpath("address").inner_text
-            cd.tags = each_data.xpath("tags").inner_text
-            cd.is_inside = each_data.xpath("is_inside").inner_text
-            cd.is_food_traditional = each_data.xpath("is_food_traditional").inner_text
-            cd.is_look_traditional = each_data.xpath("is_look_traditional").inner_text
-            cd.near_subway = each_data.xpath("near_subway").inner_text
-            cd.save
+        target_xml = ["seochon_final.xml", "myungdong_final.xml", "hongdae_final.xml"]
+        target_xml.each do |each_xml|
+            seochon = Nokogiri::XML(File.open("public/"+each_xml))
+            seochon.xpath("//store").each do |each_data|
+                cd = CrawlDatum.new
+                cd.region = each_xml.delete(".xml")
+                cd.category = each_data.xpath("category").inner_text
+                cd.name = each_data.xpath("name").inner_text
+                cd.address = each_data.xpath("address").inner_text
+                cd.tags = each_data.xpath("tags").inner_text
+                cd.is_inside = each_data.xpath("is_inside").inner_text
+                cd.is_food_traditional = each_data.xpath("is_food_traditional").inner_text
+                cd.is_look_traditional = each_data.xpath("is_look_traditional").inner_text
+                cd.near_subway = each_data.xpath("near_subway").inner_text
+                cd.save
+            end
         end
-        redirect_to '/crawl/chk'
+        redirect_to '/crawl/xml_crawl_chk' #크롤링 데이터를 /chk에서 확인할 수 있도록 합니다.
     end
 
     def upload2
-        unless CrawlDatum.where(address: params[:address_name]).take == true
+        #unless CrawlDatum.where(address: params[:address_name]).take == true
             cd_saved = CrawlDatum.where(address: params[:address_name]).take
             puts params[:x]
             cd_saved.x = params[:x]
             cd_saved.y = params[:y]
             cd_saved.save
+    end
+
+    def upload2_repeated
+        unless CrawlDatum.where(address: params[:address_name]).take == true
         end
     end
     
@@ -32,7 +40,7 @@ class CrawlController < ApplicationController
         @cdchk = CrawlDatum.all
     end
 
-    def chk
+    def xml_crawl_chk
         @cdchk = CrawlDatum.all
     end
 
@@ -40,4 +48,14 @@ class CrawlController < ApplicationController
         @cdchk = CrawlDatum.all
     end
 
+    def upload_where_i_am
+        puts params[:x]
+        puts params[:y]
+    end
+
+    def draw_marker
+        @cd_shopping = CrawlDatum.where("category":"쇼핑").sample(1).first
+        @cd_cafe = CrawlDatum.where("category":"카페").sample(1).first
+        @cd_restaurant = CrawlDatum.where("category":"식당").sample(1).first
+    end
 end

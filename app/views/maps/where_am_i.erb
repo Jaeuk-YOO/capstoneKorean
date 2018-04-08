@@ -6,6 +6,7 @@
 <button type="button" class="btn btn-primary" id="target">시작하기</button>
 <br>
 <div id="map" style="width:100%;height:500px;"></div>
+<button type="button" class="btn btn-primary" id="yes">여기에 있어요!</button>
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=650c60e9b58e3063adc3af3113de32bd"></script>
 <script>
@@ -32,6 +33,7 @@ $( "#target" ).click(function() {
             
             // 마커와 인포윈도우를 표시합니다
             displayMarker(locPosition, message);
+            where_i_am(lat, lon);
                 
         });
         
@@ -69,4 +71,22 @@ $( "#target" ).click(function() {
     }    
 });
     
+function where_i_am(lat, lon){
+
+    $( "#yes" ).click(function() {
+        $.ajax({
+            type:"POST",
+            url:"/crawl/upload_where_i_am",
+            dataType:"json",
+            data:JSON.stringify({
+                "x": lat,
+                "y": lon
+            }),
+            contentType:"application/json",
+            success: function(data){
+                console.log("success");
+            }
+        });
+    });
+};    
 </script>

@@ -1,36 +1,43 @@
-<%@cdchk.each do |x|%>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=650c60e9b58e3063adc3af3113de32bd&libraries=services"></script>
+<%@cdchk.where(id: 751..822).each do |x|%>
 <script type="text/javascript">
-var geocoder = new daum.maps.services.Geocoder();
 
-var callback = function(result, status) {
-    if (status === daum.maps.services.Status.OK) {
-        console.log(result[0].address_name);
-        console.log(result[0].road_address.x);
-        console.log(result[0].road_address.y);
-
+setTimeout(function(){
         
-    $.ajax({
-	    	type:"POST",
-	    	url:"/crawl/upload2",
-	    	dataType:"json",
-	    	data:JSON.stringify({
-                "address_name": result[0].address_name,
-                "x": result[0].road_address.x,
-                "y": result[0].road_address.y
-            }),
-	    	contentType:"application/json",
-            success: function(data){
-                console.log("success");
-            }
-    });
+    var geocoder = new daum.maps.services.Geocoder();
 
-    }
-};
-geocoder.addressSearch("<%=x.address%>", callback);
+    var callback = function(result, status) {
+        if (status === daum.maps.services.Status.OK) {
+            console.log(result[0].address_name);
+            console.log(result[0].road_address.x);
+            console.log(result[0].road_address.y);
+
+            
+        $.ajax({
+                type:"POST",
+                url:"/crawl/upload2",
+                dataType:"json",
+                data:JSON.stringify({
+                    "address_name": result[0].address_name,
+                    "x": result[0].road_address.x,
+                    "y": result[0].road_address.y
+                }),
+                contentType:"application/json",
+                success: function(data){
+                    console.log("success");
+                }
+
+        });
+
+        }
+    };
+    geocoder.addressSearch("<%=x.address%>", callback);
+
+}, 1000);
+
 
 
 </script>
-
+<% puts x.id%>
 
 <%end%>

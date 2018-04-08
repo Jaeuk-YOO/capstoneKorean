@@ -2,6 +2,7 @@ class CreateCrawlData < ActiveRecord::Migration[5.1]
   def change
     create_table :crawl_data do |t|
 
+      t.string  :region
       t.string  :category
       t.string  :name
       t.string  :address

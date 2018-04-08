@@ -13,6 +13,7 @@
 ActiveRecord::Schema.define(version: 20180323040945) do
 
   create_table "crawl_data", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "region"
     t.string "category"
     t.string "name"
     t.string "address"

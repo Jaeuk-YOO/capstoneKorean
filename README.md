@@ -1,6 +1,6 @@
 # README for Capstone design in dept.Korean.
 
-## My Friend Seoul
+## My Friend, Seoul
 
 It is a service which is web, used Kakao map API by smartphone.
 
